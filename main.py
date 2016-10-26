@@ -1,5 +1,6 @@
 import vk
 import time
+import random
 
 
 token = "d531e01fce673a982e0551207dce0b313dd68bc9f5fb43ac94ba7c40302bc7f670076e48de6f94b0cdd45"
@@ -9,8 +10,10 @@ print('Working...')
 print('By Envi_Despair.')
 print('///')
 
-session = vk.Session(token)
-# session = vk.AuthSession(app_id='5637513', user_login='jake@gmail.com', user_password='Finn', scope='...')
+quotes = ['А пакетик бесплатный?', 'Продал душу дьявола.', 'Таки кошерно.', 'Не буди во мне еврея.', 'Встретил цыганку, осталась должна.', 'А помнишь, у меня на жилетке была маленькая золотая цепочка?', 'Мои любимые конфеты? Чужие.', 'Хотел отправить с конвертом деньги, но, прости, уже запечатал.', 'Шекель в радость, чефир в сладость.']
+genres = ['метал', 'гитара', 'классика', 'пианино', 'рок', 'рэп', 'народная', 'традиционная']
+# session = vk.Session(token)
+session = vk.AuthSession(app_id='5637513', user_login='+79281502588', user_password='fatfadedfuckface', scope='messages,friends,audio')
 api = vk.API(session)
 
 while (True):
@@ -27,7 +30,7 @@ while (True):
                                       search_own=0, count=2)
             if str(audios)=='[0]':
                 api.messages.send(user_id=user_id,
-                                                     message='Такого я еще не слышал. Попробуй проще, к примеру "классика".')
+                                  message=random.choice(quotes) + ' /// Прости, равви, но я таки не слышал такого. Попробуй другое, может "' + random.choice(genres) + '"?')
                 break
             mediaId = audios[1]['aid']
             ownerId = audios[1]['owner_id']
@@ -41,5 +44,5 @@ while (True):
         time.sleep(3)
 
     except:
-        api.messages.send(user_id=user_id, message='Кажется, что то случилось не так.')
+        api.messages.send(user_id=user_id, message=random.choice(quotes) + ' Прости, равви, но я такого еще не встречал.')
         pass
