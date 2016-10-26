@@ -1,8 +1,6 @@
 import vk
 import time
-import random
-import json
-from urllib.request import urlopen
+
 
 token = "d531e01fce673a982e0551207dce0b313dd68bc9f5fb43ac94ba7c40302bc7f670076e48de6f94b0cdd45"
 
@@ -12,7 +10,7 @@ print('By Envi_Despair.')
 print('///')
 
 session = vk.Session(token)
-# session = vk.AuthSession(app_id='5637513', user_login='jake@gmail.com', user_password='Finn')
+# session = vk.AuthSession(app_id='5637513', user_login='jake@gmail.com', user_password='Finn', scope='...')
 api = vk.API(session)
 
 while (True):
@@ -27,7 +25,10 @@ while (True):
             command = m[2]
             audios = api.audio.search(q='хава нагила ' + str(command), auto_complete=0, lyrisc=0, performer_only=0,
                                       search_own=0, count=2)
-            print(audios)
+            if str(audios)=='[0]':
+                api.messages.send(user_id=user_id,
+                                                     message='Такого я еще не слышал. Попробуй проще, к примеру "классика".')
+                break
             mediaId = audios[1]['aid']
             ownerId = audios[1]['owner_id']
             api.messages.send(user_id=user_id, attachment='audio' + str(ownerId) + '_' + str(mediaId))
@@ -38,6 +39,7 @@ while (True):
             api.messages.markAsRead(message_ids=ids)
 
         time.sleep(3)
+
     except:
-        pass
         api.messages.send(user_id=user_id, message='Кажется, что то случилось не так.')
+        pass
